@@ -1,0 +1,39 @@
+name: Preprocessing Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:        # trigger manual dari tab Actions
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Ambil seluruh isi repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Siapkan Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.7'
+
+      # 3. Install library yang dibutuhkan
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 4. Jalankan script preprocessing
+      - name: Run preprocessing
+        run: python preprocessing/automate_Fina-Lestari.py
+
+      # 5. Commit & push hasil dataset ke repository
+      - name: Commit preprocessed dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add preprocessing/water_potability_preprocessing.csv
+          git diff --staged --quiet || git commit -m "chore: update preprocessed dataset [skip ci]"
+          git push
