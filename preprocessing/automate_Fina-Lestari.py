@@ -23,8 +23,10 @@ from sklearn.model_selection import train_test_split
 
 # ─── Konfigurasi ────────────────────────────────────────────────────────────
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 DATASET_PATH = 'water_potability_raw.csv'
-OUTPUT_DIR   = './'
+OUTPUT_DIR   = BASE_DIR
 OUTPUT_FILE  = 'water_potability_preprocessing.csv'
 
 COLS_WITH_MISSING = ['ph', 'Sulfate', 'Trihalomethanes']
